@@ -1,0 +1,110 @@
+<div class="container">
+  <h3 class="text-center">{{ formHeading }}</h3>
+<div class="row">
+  <div class="col-md-10 offset-md-1">
+    <form [formGroup]="orderForm" (ngSubmit)="SaveNewOrder()">
+<input type="hidden" name="orderdate" id="orderdate" formControlName="orderdate">
+      <div class="form-group form-row">
+        <div class="col-md-6">
+          <label for="customername">Customername</label>
+          <input
+            type="text"
+            id="customername"
+            name="customername"
+            formControlName="customername"
+            class="form-control"
+          />
+          <div *ngIf="customername.invalid && (customername.dirty || customername.touched)">
+            <label *ngIf="customername.errors?.['required']" class="text-danger">
+              CustomerName is required.
+            </label>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label for="mobileno">Mobileno</label>
+          <input   type="text"  id="mobileno" name="mobileno" formControlName="mobileno" class="form-control" />
+          <div *ngIf="mobileno.invalid && (mobileno.dirty || mobileno.touched)">
+            <label *ngIf="mobileno.errors?.['required']" class="text-danger">
+              mobileno is required.
+            </label>
+            <label *ngIf="mobileno.errors?.['pattern']" class="text-danger">
+              Please Enter 10 Digits Valid Mobileno
+            </label>
+            <!-- <label *ngIf="mobileno.errors?.['minlength']" class="text-danger">
+              mobileno is required atleast 10 digits.
+            </label>
+            <label *ngIf="mobileno.errors?.['maxlength']" class="text-danger">
+              mobileno is required Max 10 digits.
+            </label> -->
+          </div>
+
+        </div>
+      </div>
+      <div class="form-group form-row">
+        <div class="col-md-6">
+          <label for="productname">Productname</label>
+          <input  type="text"  id="productname" name="productname"  formControlName="productname" class="form-control" />
+
+          <div
+            *ngIf="
+              productname.invalid && (productname.dirty || productname.touched)
+            "
+          >
+            <label *ngIf="productname.errors?.['required']" class="text-danger">
+              productname is required.
+            </label>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label for="price">Price</label>
+          <input
+            type="number"
+            id="price"
+            name="price"
+            class="form-control"
+            formControlName="price"
+          />
+          <div *ngIf="price.invalid && (price.dirty || price.touched)">
+            <label *ngIf="price.errors?.['required']" class="text-danger">
+              price is required.
+            </label>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label for="qty">Qty</label>
+          <input
+            type="number"
+            id="qty"
+            class="form-control"
+            formControlName="qty"
+          />
+          <div *ngIf="qty.invalid && (qty.dirty || qty.touched)">
+            <label *ngIf="qty.errors?.['required']" class="text-danger">
+              qty is required.
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group form-row">
+        <div class="col-md-4">
+          <input type="hidden" name="id" id="id" formArrayName="id">
+          <input
+            type="submit"
+            [value]="btntext"
+            [disabled]="!orderForm.valid"
+            class="btn btn-primary btn-block"
+          />
+
+        </div>
+        <div class="col-md-8">
+          <div class="alert alert-success" *ngIf="responseMessage != ''">
+            {{ responseMessage }}
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+</div>

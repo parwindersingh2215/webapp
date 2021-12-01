@@ -1,0 +1,125 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Order History</h5>
+    <a class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </a>
+  </div>
+  <div class="modal-body">
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th>Srno</th>
+          <th>Order Id</th>
+          <th>Order Status</th>
+          <th>LastUpdated</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let oHistory of orderHistory; let sno = index">
+          <td>{{ sno + 1 }}</td>
+          <td>{{ oHistory.orderId }}</td>
+          <td>{{ oHistory.orderStatus }}</td>
+          <td>{{ oHistory.lastUpdated | date }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <form [formGroup]="historyForm" (ngSubmit)="updateOrderHistory()">
+      <div class="form-group form-row">
+        <input
+          type="hidden"
+          name="orderId"
+          id="orderId"
+          formControlName="orderId"
+        />
+        <div class="col-md-6">
+
+          <input
+            type="text"
+            id="orderStatus"
+            name="orderStatus" placeholder="Order Status"
+            formControlName="orderStatus"
+            class="form-control"
+          />
+          <div
+            *ngIf="
+            orderStatus.invalid && (orderStatus.dirty || orderStatus.touched)
+            "
+          >
+            <label *ngIf="orderStatus.errors?.['required']" class="text-danger">
+              orderstatus is required.
+            </label>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <button class="btn btn-success">Update Status</button>
+        </div>
+      </div>
+
+
+      {{responseMessage}}
+    </form>
+    <button
+    type="button"
+    class="btn btn-outline-dark"
+    (click)="modal.close('Save click')"
+  >
+    close
+  </button>
+
+  </div>
+</ng-template>
+
+<div class="container">
+  <h2 class="text-center p-3">Manage Orders / Orders History</h2>
+  <table class="table table-bordered table-hover">
+    <thead class="bg-dark text-white">
+      <tr>
+        <th>Srno</th>
+        <th>OrderNo</th>
+        <th>Customername</th>
+        <th>Mobileno</th>
+        <th>Productname</th>
+        <th>Qty</th>
+        <th>Price</th>
+        <th>Orderdate</th>
+        <th>Delete</th>
+        <th>Edit</th>
+        <th>Order History</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let customerorder of customerorders; let srno = index">
+        <td>{{ srno + 1 }}</td>
+        <td>{{ customerorder.id }}</td>
+        <td>{{ customerorder.customername }}</td>
+        <td>{{ customerorder.mobileno }}</td>
+        <td>{{ customerorder.productname }}</td>
+        <td>{{ customerorder.qty }}</td>
+        <td>{{ customerorder.price }}</td>
+        <td>{{ customerorder.orderdate | date }}</td>
+        <td>
+          <button class="btn btn-danger" (click)="deleteOrder(customerorder)">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </td>
+
+        <td>
+          <button class="btn btn-warning" (click)="editOrder(customerorder)">
+            <i class="fas fa-edit"></i>
+          </button>
+        </td>
+        <td>
+          <button
+            class="btn btn-info"
+            (click)="showModal(customerorder, content)"
+          >
+            <i class="fas fa-info"></i> Manage History
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
